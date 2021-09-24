@@ -13,6 +13,8 @@
 		3115B6A926FCF08F00AE4916 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3115B6A726FCF08F00AE4916 /* Main.storyboard */; };
 		3115B6AB26FCF09300AE4916 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3115B6AA26FCF09300AE4916 /* Assets.xcassets */; };
 		3115B6AE26FCF09300AE4916 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3115B6AC26FCF09300AE4916 /* LaunchScreen.storyboard */; };
+		3115B6B626FCF11A00AE4916 /* SecondStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3115B6B526FCF11A00AE4916 /* SecondStoryboard.storyboard */; };
+		3115B6B826FCFFF900AE4916 /* AudioDSPUtils in Resources */ = {isa = PBXBuildFile; fileRef = 3115B6B726FCFFF900AE4916 /* AudioDSPUtils */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		3115B6AA26FCF09300AE4916 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3115B6AD26FCF09300AE4916 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3115B6AF26FCF09300AE4916 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3115B6B526FCF11A00AE4916 /* SecondStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SecondStoryboard.storyboard; sourceTree = "<group>"; };
+		3115B6B726FCFFF900AE4916 /* AudioDSPUtils */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AudioDSPUtils; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,10 +60,12 @@
 		3115B6A026FCF08F00AE4916 /* FunTwo */ = {
 			isa = PBXGroup;
 			children = (
+				3115B6B726FCFFF900AE4916 /* AudioDSPUtils */,
 				3115B6A126FCF08F00AE4916 /* AppDelegate.swift */,
 				3115B6A326FCF08F00AE4916 /* SceneDelegate.swift */,
 				3115B6A526FCF08F00AE4916 /* ViewController.swift */,
 				3115B6A726FCF08F00AE4916 /* Main.storyboard */,
+				3115B6B526FCF11A00AE4916 /* SecondStoryboard.storyboard */,
 				3115B6AA26FCF09300AE4916 /* Assets.xcassets */,
 				3115B6AC26FCF09300AE4916 /* LaunchScreen.storyboard */,
 				3115B6AF26FCF09300AE4916 /* Info.plist */,
@@ -126,7 +132,9 @@
 			files = (
 				3115B6AE26FCF09300AE4916 /* LaunchScreen.storyboard in Resources */,
 				3115B6AB26FCF09300AE4916 /* Assets.xcassets in Resources */,
+				3115B6B826FCFFF900AE4916 /* AudioDSPUtils in Resources */,
 				3115B6A926FCF08F00AE4916 /* Main.storyboard in Resources */,
+				3115B6B626FCF11A00AE4916 /* SecondStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
