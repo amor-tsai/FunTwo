@@ -13,9 +13,15 @@
 		3115B6A926FCF08F00AE4916 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3115B6A726FCF08F00AE4916 /* Main.storyboard */; };
 		3115B6AB26FCF09300AE4916 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3115B6AA26FCF09300AE4916 /* Assets.xcassets */; };
 		3115B6AE26FCF09300AE4916 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3115B6AC26FCF09300AE4916 /* LaunchScreen.storyboard */; };
-		3115B6B826FCFFF900AE4916 /* AudioDSPUtils in Resources */ = {isa = PBXBuildFile; fileRef = 3115B6B726FCFFF900AE4916 /* AudioDSPUtils */; };
 		3117E70826FE61E900B0F0CD /* GViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3117E70726FE61E900B0F0CD /* GViewController.swift */; };
 		3117E70A26FE631000B0F0CD /* Second.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3117E70926FE631000B0F0CD /* Second.storyboard */; };
+		3117E70D26FE76F000B0F0CD /* MetalGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3117E70C26FE76F000B0F0CD /* MetalGraph.swift */; };
+		3117E70F26FE784700B0F0CD /* AudioModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3117E70E26FE784700B0F0CD /* AudioModel.swift */; };
+		3117E71626FE7E8800B0F0CD /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3117E71526FE7E8800B0F0CD /* Shaders.metal */; };
+		31388CC226FE86DC00FAAB2E /* CircularBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 31388CC126FE86DC00FAAB2E /* CircularBuffer.m */; };
+		31388CC626FE877F00FAAB2E /* Novocaine.m in Sources */ = {isa = PBXBuildFile; fileRef = 31388CC526FE877F00FAAB2E /* Novocaine.m */; };
+		31388CC926FE879600FAAB2E /* AudioFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 31388CC826FE879600FAAB2E /* AudioFileReader.m */; };
+		31388CCC26FE87A500FAAB2E /* FFTHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 31388CCB26FE87A500FAAB2E /* FFTHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,9 +33,20 @@
 		3115B6AA26FCF09300AE4916 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3115B6AD26FCF09300AE4916 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3115B6AF26FCF09300AE4916 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3115B6B726FCFFF900AE4916 /* AudioDSPUtils */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AudioDSPUtils; sourceTree = SOURCE_ROOT; };
 		3117E70726FE61E900B0F0CD /* GViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GViewController.swift; sourceTree = "<group>"; };
 		3117E70926FE631000B0F0CD /* Second.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Second.storyboard; sourceTree = "<group>"; };
+		3117E70C26FE76F000B0F0CD /* MetalGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalGraph.swift; sourceTree = "<group>"; };
+		3117E70E26FE784700B0F0CD /* AudioModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioModel.swift; sourceTree = "<group>"; };
+		3117E71526FE7E8800B0F0CD /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = SOURCE_ROOT; };
+		31388CBD26FE85BD00FAAB2E /* FunTwo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FunTwo-Bridging-Header.h"; sourceTree = "<group>"; };
+		31388CC026FE86DC00FAAB2E /* CircularBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircularBuffer.h; sourceTree = "<group>"; };
+		31388CC126FE86DC00FAAB2E /* CircularBuffer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CircularBuffer.m; sourceTree = "<group>"; };
+		31388CC426FE877F00FAAB2E /* Novocaine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Novocaine.h; sourceTree = "<group>"; };
+		31388CC526FE877F00FAAB2E /* Novocaine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Novocaine.m; sourceTree = "<group>"; };
+		31388CC726FE879600FAAB2E /* AudioFileReader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioFileReader.h; sourceTree = "<group>"; };
+		31388CC826FE879600FAAB2E /* AudioFileReader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioFileReader.m; sourceTree = "<group>"; };
+		31388CCA26FE87A500FAAB2E /* FFTHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FFTHelper.h; sourceTree = "<group>"; };
+		31388CCB26FE87A500FAAB2E /* FFTHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FFTHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +63,7 @@
 		3115B69526FCF08F00AE4916 = {
 			isa = PBXGroup;
 			children = (
+				3117E71526FE7E8800B0F0CD /* Shaders.metal */,
 				3115B6A026FCF08F00AE4916 /* FunTwo */,
 				3115B69F26FCF08F00AE4916 /* Products */,
 			);
@@ -62,18 +80,36 @@
 		3115B6A026FCF08F00AE4916 /* FunTwo */ = {
 			isa = PBXGroup;
 			children = (
-				3115B6B726FCFFF900AE4916 /* AudioDSPUtils */,
+				31388CCD26FE87B800FAAB2E /* AudioDSPUtils */,
 				3115B6A126FCF08F00AE4916 /* AppDelegate.swift */,
 				3115B6A326FCF08F00AE4916 /* SceneDelegate.swift */,
 				3115B6A526FCF08F00AE4916 /* ViewController.swift */,
-				3115B6A726FCF08F00AE4916 /* Main.storyboard */,
 				3117E70726FE61E900B0F0CD /* GViewController.swift */,
+				3117E70C26FE76F000B0F0CD /* MetalGraph.swift */,
+				3117E70E26FE784700B0F0CD /* AudioModel.swift */,
+				3115B6A726FCF08F00AE4916 /* Main.storyboard */,
 				3117E70926FE631000B0F0CD /* Second.storyboard */,
 				3115B6AA26FCF09300AE4916 /* Assets.xcassets */,
 				3115B6AC26FCF09300AE4916 /* LaunchScreen.storyboard */,
 				3115B6AF26FCF09300AE4916 /* Info.plist */,
+				31388CBD26FE85BD00FAAB2E /* FunTwo-Bridging-Header.h */,
 			);
 			path = FunTwo;
+			sourceTree = "<group>";
+		};
+		31388CCD26FE87B800FAAB2E /* AudioDSPUtils */ = {
+			isa = PBXGroup;
+			children = (
+				31388CC026FE86DC00FAAB2E /* CircularBuffer.h */,
+				31388CC126FE86DC00FAAB2E /* CircularBuffer.m */,
+				31388CC426FE877F00FAAB2E /* Novocaine.h */,
+				31388CC526FE877F00FAAB2E /* Novocaine.m */,
+				31388CC726FE879600FAAB2E /* AudioFileReader.h */,
+				31388CC826FE879600FAAB2E /* AudioFileReader.m */,
+				31388CCA26FE87A500FAAB2E /* FFTHelper.h */,
+				31388CCB26FE87A500FAAB2E /* FFTHelper.m */,
+			);
+			path = AudioDSPUtils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -107,6 +143,7 @@
 				TargetAttributes = {
 					3115B69D26FCF08F00AE4916 = {
 						CreatedOnToolsVersion = 12.5.1;
+						LastSwiftMigration = 1250;
 					};
 				};
 			};
@@ -135,7 +172,6 @@
 			files = (
 				3115B6AE26FCF09300AE4916 /* LaunchScreen.storyboard in Resources */,
 				3115B6AB26FCF09300AE4916 /* Assets.xcassets in Resources */,
-				3115B6B826FCFFF900AE4916 /* AudioDSPUtils in Resources */,
 				3117E70A26FE631000B0F0CD /* Second.storyboard in Resources */,
 				3115B6A926FCF08F00AE4916 /* Main.storyboard in Resources */,
 			);
@@ -148,10 +184,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31388CCC26FE87A500FAAB2E /* FFTHelper.m in Sources */,
+				31388CC226FE86DC00FAAB2E /* CircularBuffer.m in Sources */,
 				3115B6A626FCF08F00AE4916 /* ViewController.swift in Sources */,
+				3117E71626FE7E8800B0F0CD /* Shaders.metal in Sources */,
 				3115B6A226FCF08F00AE4916 /* AppDelegate.swift in Sources */,
+				3117E70F26FE784700B0F0CD /* AudioModel.swift in Sources */,
+				31388CC926FE879600FAAB2E /* AudioFileReader.m in Sources */,
 				3117E70826FE61E900B0F0CD /* GViewController.swift in Sources */,
 				3115B6A426FCF08F00AE4916 /* SceneDelegate.swift in Sources */,
+				3117E70D26FE76F000B0F0CD /* MetalGraph.swift in Sources */,
+				31388CC626FE877F00FAAB2E /* Novocaine.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,6 +341,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F69WJ27LN4;
 				INFOPLIST_FILE = FunTwo/Info.plist;
@@ -307,6 +351,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = SMU.FunTwo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FunTwo/FunTwo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -317,6 +363,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F69WJ27LN4;
 				INFOPLIST_FILE = FunTwo/Info.plist;
@@ -326,6 +373,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = SMU.FunTwo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FunTwo/FunTwo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
