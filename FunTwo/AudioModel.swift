@@ -17,19 +17,13 @@ class AudioModel {
     // the user can access these arrays at any time and plot them if they like
     var timeData:[Float]
     var fftData:[Float]
-    var fft20MaximumData:[Float]
-    var stride:Int
-    var fft20Count:Int
     
     // MARK: Public Methods
-    init(buffer_size:Int,fft20:Int) {
+    init(buffer_size:Int) {
         BUFFER_SIZE = buffer_size
         // anything not lazily instatntiated should be allocated here
         timeData = Array.init(repeating: 0.0, count: BUFFER_SIZE)
         fftData = Array.init(repeating: 0.0, count: BUFFER_SIZE/2)
-        fft20MaximumData = Array.init(repeating: 0.0, count: 20)
-        fft20Count = fft20
-        stride = fftData.count/fft20Count
     }
     
     // public function for starting processing of microphone data
@@ -47,11 +41,11 @@ class AudioModel {
         }
     }
     
-    func startAudioPlayProcessing() {
-        if let manager = self.audioManager{
-            manager.outputBlock = self.handleSpeakerQueryWithAudioFile
-        }
-    }
+//    func startAudioPlayProcessing() {
+//        if let manager = self.audioManager{
+//            manager.outputBlock = self.handleSpeakerQueryWithAudioFile
+//        }
+//    }
     
     // You must call this when you want the audio to start being handled by our model
     func play(){
@@ -86,19 +80,19 @@ class AudioModel {
     }()
     
     //to load mp3 file
-    private lazy var fileReader:AudioFileReader? = {
-        if let url = Bundle.main.url(forResource: "satisfaction", withExtension: "mp3"){
-            var tmpFileReader:AudioFileReader? = AudioFileReader.init(audioFileURL: url,
-                                                                        samplingRate: Float(audioManager!.samplingRate),
-                                                                        numChannels: audioManager!.numOutputChannels)
-            tmpFileReader!.currentTime = 0.0
-            print("Audio file succesfully loaded for \(url)")
-            return tmpFileReader
-        }else {
-            print("Audio file failed to load")
-            return nil
-        }
-    }()
+//    private lazy var fileReader:AudioFileReader? = {
+//        if let url = Bundle.main.url(forResource: "satisfaction", withExtension: "mp3"){
+//            var tmpFileReader:AudioFileReader? = AudioFileReader.init(audioFileURL: url,
+//                                                                        samplingRate: Float(audioManager!.samplingRate),
+//                                                                        numChannels: audioManager!.numOutputChannels)
+//            tmpFileReader!.currentTime = 0.0
+//            print("Audio file succesfully loaded for \(url)")
+//            return tmpFileReader
+//        }else {
+//            print("Audio file failed to load")
+//            return nil
+//        }
+//    }()
     
     
     //==========================================
@@ -123,19 +117,6 @@ class AudioModel {
             //   fftData:  the FFT of those same samples
             // the user can now use these variables however they like
             
-            
-            //calculate the values of this new array by looping through the FFT magnitude array to take maxima of windows
-            
-            for i in 0..<fft20Count {
-//                let arraySlice = fftData[i*stride..<(i+1)*stride]
-//                let tempArr = Array(arraySlice)
-//                let tempMax = vDSP.maximum(tempArr)
-//                fft20MaximumData[i] = tempMax
-                
-                vDSP_maxv(Array(fftData[i*stride..<(i+1)*stride]), 1, &fft20MaximumData[i], vDSP_Length(self.stride))
-                
-            }
-            
 
         }
     }
@@ -149,10 +130,10 @@ class AudioModel {
         self.inputBuffer?.addNewFloatData(data, withNumSamples: Int64(numFrames))
     }
     
-    private func handleSpeakerQueryWithAudioFile(data:Optional<UnsafeMutablePointer<Float>>, numFrames:UInt32, numChannels: UInt32) {
-        if let file = self.fileReader {
-            file.retrieveFreshAudio(data, numFrames: numFrames, numChannels: numChannels)
-        }
-    }
+//    private func handleSpeakerQueryWithAudioFile(data:Optional<UnsafeMutablePointer<Float>>, numFrames:UInt32, numChannels: UInt32) {
+//        if let file = self.fileReader {
+//            file.retrieveFreshAudio(data, numFrames: numFrames, numChannels: numChannels)
+//        }
+//    }
     
 }

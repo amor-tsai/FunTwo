@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/Amor/Documents/my_smu/fall_semester_2021/7323mobile_sensing/workspace/FunTwo/AudioDSPUtils">
-   </FileRef>
-   <FileRef
       location = "self:">
    </FileRef>
 </Workspace>
