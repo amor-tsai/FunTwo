@@ -10,7 +10,7 @@ import UIKit
 class ViewController: UIViewController {
 
     struct AudioConstants{
-        static let AUDIO_BUFFER_SIZE = 1024*5
+        static let AUDIO_BUFFER_SIZE = 1024*4
     }
     
     // setup audio model
@@ -46,6 +46,11 @@ class ViewController: UIViewController {
             selector: #selector(self.updateGraph),
             userInfo: nil,
             repeats: true)
+    }
+    
+    //when the view disappear, pause the audio
+    override func viewDidDisappear(_ animated: Bool) {
+        audio.pause()
     }
     
     // periodically, update the graph with refreshed FFT Data
