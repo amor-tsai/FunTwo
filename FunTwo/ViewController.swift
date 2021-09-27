@@ -11,9 +11,11 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var Lable1: UILabel!
     @IBOutlet weak var Label2: UILabel!
+    @IBOutlet weak var ResetButton: UIButton!
     
     struct AudioConstants{
         static let AUDIO_BUFFER_SIZE = 8000
+        static let FPS:Double = 10.0
     }
     
     // setup audio model
@@ -26,6 +28,13 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        //reset button ui style
+        ResetButton.backgroundColor = .clear
+        ResetButton.setTitleColor(UIColor.black, for: .normal)
+        ResetButton.layer.cornerRadius = 5
+        ResetButton.layer.borderWidth = 1
+        ResetButton.layer.borderColor = UIColor.black.cgColor
+        
         // add in graphs for display
         graph?.addGraph(withName: "fft",
                         shouldNormalize: true,
@@ -36,7 +45,7 @@ class ViewController: UIViewController {
             numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE)
         
         // start up the audio model here, querying microphone
-        audio.startMicrophoneProcessing(withFps: 5)
+        audio.startMicrophoneProcessing(withFps: AudioConstants.FPS)
         
         //load the audio file
 //        audio.startAudioPlayProcessing()
@@ -45,14 +54,14 @@ class ViewController: UIViewController {
         audio.play()
         
         // run the loop for updating the graph peridocially
-        Timer.scheduledTimer(timeInterval: 0.2, target: self,
+        Timer.scheduledTimer(timeInterval: 1/AudioConstants.FPS, target: self,
             selector: #selector(self.updateGraph),
             userInfo: nil,
             repeats: true)
         
 //        self.Lable1.text = audio.fftData
         
-        Timer.scheduledTimer(timeInterval: 0.2, target: self,
+        Timer.scheduledTimer(timeInterval: 1/AudioConstants.FPS, target: self,
             selector: #selector(self.updateFrequency),
             userInfo: nil,
             repeats: true)
@@ -85,6 +94,9 @@ class ViewController: UIViewController {
         self.Label2.text = "2nd largest frequency \(audio.lockInFrequency2)"
     }
     
-
+    //when tap the button, reset the lock-in frequency to zero
+    @IBAction func ResetLockInFrequency(_ sender: Any) {
+        audio.lockFrequencyReset()
+    }
 }
 

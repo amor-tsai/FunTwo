@@ -22,10 +22,7 @@
 		31388CC626FE877F00FAAB2E /* Novocaine.m in Sources */ = {isa = PBXBuildFile; fileRef = 31388CC526FE877F00FAAB2E /* Novocaine.m */; };
 		31388CC926FE879600FAAB2E /* AudioFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 31388CC826FE879600FAAB2E /* AudioFileReader.m */; };
 		31388CCC26FE87A500FAAB2E /* FFTHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 31388CCB26FE87A500FAAB2E /* FFTHelper.m */; };
-		314A624B2700E97000643756 /* DataBufferBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 314A62442700E97000643756 /* DataBufferBlock.m */; };
-		314A624C2700E97000643756 /* CubicSpline.m in Sources */ = {isa = PBXBuildFile; fileRef = 314A62452700E97000643756 /* CubicSpline.m */; };
 		314A624D2700E97000643756 /* PeakFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 314A62462700E97000643756 /* PeakFinder.m */; };
-		314A624F2700E97000643756 /* BufferedOverlapQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 314A624A2700E97000643756 /* BufferedOverlapQueue.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,14 +48,8 @@
 		31388CC826FE879600FAAB2E /* AudioFileReader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioFileReader.m; sourceTree = "<group>"; };
 		31388CCA26FE87A500FAAB2E /* FFTHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FFTHelper.h; sourceTree = "<group>"; };
 		31388CCB26FE87A500FAAB2E /* FFTHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FFTHelper.m; sourceTree = "<group>"; };
-		314A62412700E96F00643756 /* BufferedOverlapQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BufferedOverlapQueue.h; sourceTree = "<group>"; };
-		314A62432700E97000643756 /* DataBufferBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBufferBlock.h; sourceTree = "<group>"; };
-		314A62442700E97000643756 /* DataBufferBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataBufferBlock.m; sourceTree = "<group>"; };
-		314A62452700E97000643756 /* CubicSpline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CubicSpline.m; sourceTree = "<group>"; };
 		314A62462700E97000643756 /* PeakFinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeakFinder.m; sourceTree = "<group>"; };
 		314A62472700E97000643756 /* PeakFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeakFinder.h; sourceTree = "<group>"; };
-		314A62492700E97000643756 /* CubicSpline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CubicSpline.h; sourceTree = "<group>"; };
-		314A624A2700E97000643756 /* BufferedOverlapQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BufferedOverlapQueue.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,12 +103,6 @@
 		31388CCD26FE87B800FAAB2E /* AudioDSPUtils */ = {
 			isa = PBXGroup;
 			children = (
-				314A62412700E96F00643756 /* BufferedOverlapQueue.h */,
-				314A624A2700E97000643756 /* BufferedOverlapQueue.m */,
-				314A62492700E97000643756 /* CubicSpline.h */,
-				314A62452700E97000643756 /* CubicSpline.m */,
-				314A62432700E97000643756 /* DataBufferBlock.h */,
-				314A62442700E97000643756 /* DataBufferBlock.m */,
 				314A62472700E97000643756 /* PeakFinder.h */,
 				314A62462700E97000643756 /* PeakFinder.m */,
 				31388CC026FE86DC00FAAB2E /* CircularBuffer.h */,
@@ -205,12 +190,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				314A624D2700E97000643756 /* PeakFinder.m in Sources */,
-				314A624C2700E97000643756 /* CubicSpline.m in Sources */,
-				314A624F2700E97000643756 /* BufferedOverlapQueue.m in Sources */,
 				31388CCC26FE87A500FAAB2E /* FFTHelper.m in Sources */,
 				31388CC226FE86DC00FAAB2E /* CircularBuffer.m in Sources */,
 				3115B6A626FCF08F00AE4916 /* ViewController.swift in Sources */,
-				314A624B2700E97000643756 /* DataBufferBlock.m in Sources */,
 				3117E71626FE7E8800B0F0CD /* Shaders.metal in Sources */,
 				3115B6A226FCF08F00AE4916 /* AppDelegate.swift in Sources */,
 				3117E70F26FE784700B0F0CD /* AudioModel.swift in Sources */,

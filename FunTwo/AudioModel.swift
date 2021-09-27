@@ -13,6 +13,7 @@ class AudioModel {
     
     // MARK: Properties
     private var BUFFER_SIZE:Int
+    private var WINDOW_SIZE:UInt = 7
     private var _lockInFrequency1:Float
     private var _lockInFrequency2:Float
     
@@ -94,6 +95,11 @@ class AudioModel {
         return(f2 + ((m1 - m3) / (m3+m1-2.0 * m2)) * self.frequencyResolution / 2.0);
     }
     
+    //reset the two largest frequency detected to zero
+    func lockFrequencyReset() {
+        self._lockInFrequency2 = 0.0
+        self._lockInFrequency1 = 0.0
+    }
     
     //==========================================
     // MARK: Private Properties
@@ -141,8 +147,8 @@ class AudioModel {
             //   fftData:  the FFT of those same samples
             // the user can now use these variables however they like
             
-            self.findTwoPeaksFromFFtData(windowSize: 7)
-//            self.findPeaksFromFFTData(windowSize: 7)
+            self.findTwoPeaksFromFFtData(windowSize: WINDOW_SIZE)
+            self.findPeaksFromFFTData(windowSize: Int(WINDOW_SIZE))
         }
     }
     
@@ -188,10 +194,10 @@ class AudioModel {
             let mid = windowSize/2+i
             var maxValue:Float = 0.0
             var maxIndex:vDSP_Length = 0
-            vDSP_maxvi(&fftData[i], 1, &maxValue, &maxIndex, vDSP_Length(windowSize));
+            vDSP_maxvi(&(fftData[i]), 1, &maxValue, &maxIndex, vDSP_Length(windowSize));
             maxIndex += UInt(i)
 //            print("max value is \(maxValue) and maxIndex is \(maxIndex)")
-            if (mid == maxIndex && maxValue>0)  {
+            if (mid == maxIndex)  {
                 peaks.append(Int(maxIndex)+i*windowSize)
             }
         }
