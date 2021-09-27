@@ -9,8 +9,11 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var Lable1: UILabel!
+    @IBOutlet weak var Label2: UILabel!
+    
     struct AudioConstants{
-        static let AUDIO_BUFFER_SIZE = 1024*4
+        static let AUDIO_BUFFER_SIZE = 8000
     }
     
     // setup audio model
@@ -33,7 +36,7 @@ class ViewController: UIViewController {
             numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE)
         
         // start up the audio model here, querying microphone
-        audio.startMicrophoneProcessing(withFps: 10)
+        audio.startMicrophoneProcessing(withFps: 5)
         
         //load the audio file
 //        audio.startAudioPlayProcessing()
@@ -42,15 +45,24 @@ class ViewController: UIViewController {
         audio.play()
         
         // run the loop for updating the graph peridocially
-        Timer.scheduledTimer(timeInterval: 0.05, target: self,
+        Timer.scheduledTimer(timeInterval: 0.2, target: self,
             selector: #selector(self.updateGraph),
             userInfo: nil,
             repeats: true)
+        
+//        self.Lable1.text = audio.fftData
+        
+        Timer.scheduledTimer(timeInterval: 0.2, target: self,
+            selector: #selector(self.updateFrequency),
+            userInfo: nil,
+            repeats: true)
+        
     }
     
-    //when the view disappear, pause the audio
+    //when the view disappear, pause the audio and stop the timer in the audio module
     override func viewDidDisappear(_ animated: Bool) {
         audio.pause()
+        audio.stopTimer()
     }
     
     // periodically, update the graph with refreshed FFT Data
@@ -65,10 +77,14 @@ class ViewController: UIViewController {
             data: self.audio.timeData,
             forKey: "time"
         )
-        
-
-        
     }
+    
+    @objc
+    func updateFrequency(){
+        self.Lable1.text = "1st frequency \(audio.lockInFrequency1)"
+        self.Label2.text = "2nd largest frequency \(audio.lockInFrequency2)"
+    }
+    
 
 }
 

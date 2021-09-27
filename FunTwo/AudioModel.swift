@@ -13,10 +13,20 @@ class AudioModel {
     
     // MARK: Properties
     private var BUFFER_SIZE:Int
+    private var _lockInFrequency1:Float
+    private var _lockInFrequency2:Float
+    
     // thse properties are for interfaceing with the API
     // the user can access these arrays at any time and plot them if they like
     var timeData:[Float]
     var fftData:[Float]
+    var lockInFrequency1:Float{//open to use with only getter function
+        get{return self._lockInFrequency1}
+    }
+    var lockInFrequency2:Float{//open to use with only getter function
+        get{return self._lockInFrequency2}
+    }
+    var timer:Timer?
     
     // MARK: Public Methods
     init(buffer_size:Int) {
@@ -24,6 +34,9 @@ class AudioModel {
         // anything not lazily instatntiated should be allocated here
         timeData = Array.init(repeating: 0.0, count: BUFFER_SIZE)
         fftData = Array.init(repeating: 0.0, count: BUFFER_SIZE/2)
+        _lockInFrequency1 = 0.0
+        _lockInFrequency2 = 0.0
+        timer = nil
     }
     
     // public function for starting processing of microphone data
@@ -34,18 +47,22 @@ class AudioModel {
             
             // repeat this fps times per second using the timer class
             //   every time this is called, we update the arrays "timeData" and "fftData"
-            Timer.scheduledTimer(timeInterval: 1.0/withFps, target: self,
+            
+            guard self.timer == nil else {
+                return
+            }
+            self.timer = Timer.scheduledTimer(timeInterval: 1.0/withFps, target: self,
                                  selector: #selector(self.runEveryInterval),
                                  userInfo: nil,
                                  repeats: true)
         }
     }
     
-//    func startAudioPlayProcessing() {
-//        if let manager = self.audioManager{
-//            manager.outputBlock = self.handleSpeakerQueryWithAudioFile
-//        }
-//    }
+    //Call this function to stop the timer
+    func stopTimer() {
+        self.timer?.invalidate()
+        self.timer = nil
+    }
     
     // You must call this when you want the audio to start being handled by our model
     func play(){
@@ -63,6 +80,21 @@ class AudioModel {
         print("it stops playing")
     }
     
+    //Get the max frequency if the maximum value locates at the “index”
+    func getFrequencyFromIndex(index:Int,data:[Float]) -> Float{
+        if (index == 0) {
+            return 0;
+        }
+        
+        let f2 = Float(index) * self.frequencyResolution;
+        let m1 = data[index - 1];
+        let m2 = data[index];
+        let m3 = data[index + 1];
+        
+        return(f2 + ((m1 - m3) / (m3+m1-2.0 * m2)) * self.frequencyResolution / 2.0);
+    }
+    
+    
     //==========================================
     // MARK: Private Properties
     private lazy var audioManager:Novocaine? = {
@@ -73,26 +105,18 @@ class AudioModel {
         return FFTHelper.init(fftSize: Int32(BUFFER_SIZE))
     }()
     
+    private lazy var frequencyResolution = {
+        return Float(audioManager!.samplingRate)/Float(BUFFER_SIZE)
+    }()
     
     private lazy var inputBuffer:CircularBuffer? = {
         return CircularBuffer.init(numChannels: Int64(self.audioManager!.numInputChannels),
                                    andBufferSize: Int64(BUFFER_SIZE))
     }()
     
-    //to load mp3 file
-//    private lazy var fileReader:AudioFileReader? = {
-//        if let url = Bundle.main.url(forResource: "satisfaction", withExtension: "mp3"){
-//            var tmpFileReader:AudioFileReader? = AudioFileReader.init(audioFileURL: url,
-//                                                                        samplingRate: Float(audioManager!.samplingRate),
-//                                                                        numChannels: audioManager!.numOutputChannels)
-//            tmpFileReader!.currentTime = 0.0
-//            print("Audio file succesfully loaded for \(url)")
-//            return tmpFileReader
-//        }else {
-//            print("Audio file failed to load")
-//            return nil
-//        }
-//    }()
+    private lazy var peakFinder:PeakFinder? = {
+        return PeakFinder.init(frequencyResolution: self.frequencyResolution)
+    }()
     
     
     //==========================================
@@ -117,7 +141,8 @@ class AudioModel {
             //   fftData:  the FFT of those same samples
             // the user can now use these variables however they like
             
-
+            self.findTwoPeaksFromFFtData(windowSize: 7)
+//            self.findPeaksFromFFTData(windowSize: 7)
         }
     }
     
@@ -130,10 +155,48 @@ class AudioModel {
         self.inputBuffer?.addNewFloatData(data, withNumSamples: Int64(numFrames))
     }
     
-//    private func handleSpeakerQueryWithAudioFile(data:Optional<UnsafeMutablePointer<Float>>, numFrames:UInt32, numChannels: UInt32) {
-//        if let file = self.fileReader {
-//            file.retrieveFreshAudio(data, numFrames: numFrames, numChannels: numChannels)
-//        }
-//    }
     
+    //find two peaks from the fftData
+    private func findTwoPeaksFromFFtData(windowSize:UInt){
+        if let arr = self.peakFinder?.getFundamentalPeaks(
+            fromBuffer: &fftData,
+            withLength: UInt(BUFFER_SIZE)/2,
+            usingWindowSize: windowSize,
+            andPeakMagnitudeMinimum: 0,
+            aboveFrequency: 1.0){
+            
+            for i in 0..<arr.count {
+                if let peakObj = arr[i] as? Peak {
+                    print(
+                        "the \(i) peak is \(peakObj.frequency) index of peak is \(peakObj.index) magnitude is \(peakObj.magnitude)"
+                    )
+                    if i==0,lockInFrequency1<peakObj.frequency {
+                        _lockInFrequency1 = peakObj.frequency
+                    }
+                    if i==1,lockInFrequency2<peakObj.frequency {
+                        _lockInFrequency2 = peakObj.frequency
+                    }
+                }
+            }
+        }
+    }
+    
+    //
+    private func findPeaksFromFFTData(windowSize:Int){
+        var peaks = [Int]()
+        for i in 0..<(BUFFER_SIZE/2-windowSize) {
+            let mid = windowSize/2+i
+            var maxValue:Float = 0.0
+            var maxIndex:vDSP_Length = 0
+            vDSP_maxvi(&fftData[i], 1, &maxValue, &maxIndex, vDSP_Length(windowSize));
+            maxIndex += UInt(i)
+//            print("max value is \(maxValue) and maxIndex is \(maxIndex)")
+            if (mid == maxIndex && maxValue>0)  {
+                peaks.append(Int(maxIndex)+i*windowSize)
+            }
+        }
+        print(peaks)
+    }
+    
+        
 }
