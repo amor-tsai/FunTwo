@@ -79,7 +79,6 @@ class AudioModel {
     // the user can access these arrays at any time and plot them if they like
     var timeData:[Float]
     var fftData:[Float]
-    var sumFFtData:[Float]// add each element from a fftData to the corresponding element in another fftData
     
     var lockInFrequency1:Float{//open to use with only getter function
         get{return self._lockInFrequency1}
@@ -104,7 +103,6 @@ class AudioModel {
         // anything not lazily instatntiated should be allocated here
         timeData = Array.init(repeating: 0.0, count: BUFFER_SIZE)
         fftData = Array.init(repeating: 0.0, count: BUFFER_SIZE/2)
-        sumFFtData = Array.init(repeating: 0.0, count: BUFFER_SIZE/2)
         _lockInFrequency1 = 0.0
         _lockInFrequency2 = 0.0
         timer = nil
@@ -208,9 +206,7 @@ class AudioModel {
     @objc
     private func runEveryInterval(){
         if inputBuffer != nil {
-            
-            var tmp = fftData
-            
+                        
             // copy time data to swift array
             self.inputBuffer!.fetchFreshData(&timeData,
                                              withNumSamples: Int64(BUFFER_SIZE))
@@ -221,11 +217,7 @@ class AudioModel {
             
             //make element-add in each array of fftData for SUM_STEP times(I use online piano keyboard to test, and 15 times seem a proper result), so we could get the maximum frequency
             if sumStepCount<SUM_STEP {
-                if sumStepCount>0 {
-                    vDSP_vmul(&tmp, 1, fftData, 1, &sumFFtData, 1, vDSP_Length(sumFFtData.count))
-                }
                 sumStepCount += 1
-//                print(sumFFtData)
             }
             
             // at this point, we have saved the data to the arrays:
@@ -234,7 +226,7 @@ class AudioModel {
             // the user can now use these variables however they like
             
             self.findTwoPeaksFromFFtData(windowSize: WINDOW_SIZE)
-            self.findPeaksFromFFTData(windowSize: Int(WINDOW_SIZE))
+//            self.findPeaksFromFFTData(windowSize: Int(WINDOW_SIZE))
             self.pianoDetected(windowSize: WINDOW_SIZE)
         }
     }
@@ -275,23 +267,23 @@ class AudioModel {
     }
     
     //
-    private func findPeaksFromFFTData(windowSize:Int){
-        var peaks = [Int]()
-        for i in 0..<(BUFFER_SIZE/2-windowSize) {
-            let mid = windowSize/2+i
-            var maxValue:Float = 0.0
-            var maxIndex:vDSP_Length = 0
-            vDSP_maxvi(&(fftData[i]), 1, &maxValue, &maxIndex, vDSP_Length(windowSize));
-            maxIndex += UInt(i)
-//            print("max value is \(maxValue) and maxIndex is \(maxIndex)")
-            if (mid == maxIndex)  {
-                peaks.append(Int(maxIndex)+i*windowSize)
-            }
-        }
-        if peaks.count > 0{
-            print(peaks)
-        }
-    }
+//    private func findPeaksFromFFTData(windowSize:Int){
+//        var peaks = [Int]()
+//        for i in 0..<(BUFFER_SIZE/2-windowSize) {
+//            let mid = windowSize/2+i
+//            var maxValue:Float = 0.0
+//            var maxIndex:vDSP_Length = 0
+//            vDSP_maxvi(&(fftData[i]), 1, &maxValue, &maxIndex, vDSP_Length(windowSize));
+//            maxIndex += UInt(i)
+////            print("max value is \(maxValue) and maxIndex is \(maxIndex)")
+//            if (mid == maxIndex)  {
+//                peaks.append(Int(maxIndex)+i*windowSize)
+//            }
+//        }
+//        if peaks.count > 0{
+//            print(peaks)
+//        }
+//    }
     
     //To detect piano notes
     private func pianoDetected(windowSize:UInt) {
