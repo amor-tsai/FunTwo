@@ -5,6 +5,8 @@
 //  Created by Eric Larson 
 //  Copyright (c) 2015 Eric Larson. All rights reserved.
 //
+// function getFrequencyFromIndex modified by Amor Tsai
+//
 
 #import "PeakFinder.h"
 #import <Accelerate/Accelerate.h>
@@ -148,7 +150,7 @@
     float m2 = data[index];
     float m3 = data[index + 1];
     
-    return f2 + ((m3 - m2) / (2.0 * m2 - m1 - m2)) * self.frequencyResolution / 2.0;
+    return f2 + ((m1 - m3) / (m3 + m1 - 2.0 * m2)) * self.frequencyResolution / 2.0;// Modified by Amor Tsai
 }
 
 

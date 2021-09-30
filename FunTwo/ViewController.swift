@@ -12,10 +12,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var Lable1: UILabel!
     @IBOutlet weak var Label2: UILabel!
     @IBOutlet weak var ResetButton: UIButton!
+    @IBOutlet weak var CurrHZLable: UILabel!
+    @IBOutlet weak var PianoNoteLable: UILabel!
     
     struct AudioConstants{
-        static let AUDIO_BUFFER_SIZE = 8000
-        static let FPS:Double = 10.0
+        static let AUDIO_BUFFER_SIZE = 1024*16
+        static let FPS:Double = 20.0
     }
     
     // setup audio model
@@ -36,30 +38,26 @@ class ViewController: UIViewController {
         ResetButton.layer.borderColor = UIColor.black.cgColor
         
         // add in graphs for display
-        graph?.addGraph(withName: "fft",
-                        shouldNormalize: true,
-                        numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE/2)
-        
-        graph?.addGraph(withName: "time",
-            shouldNormalize: false,
-            numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE)
+//        graph?.addGraph(withName: "fft",
+//                        shouldNormalize: true,
+//                        numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE/2)
+//
+//        graph?.addGraph(withName: "time",
+//            shouldNormalize: false,
+//            numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE)
         
         // start up the audio model here, querying microphone
         audio.startMicrophoneProcessing(withFps: AudioConstants.FPS)
         
-        //load the audio file
-//        audio.startAudioPlayProcessing()
-        
         //play the audio
         audio.play()
         
-        // run the loop for updating the graph peridocially
-        Timer.scheduledTimer(timeInterval: 1/AudioConstants.FPS, target: self,
-            selector: #selector(self.updateGraph),
-            userInfo: nil,
-            repeats: true)
         
-//        self.Lable1.text = audio.fftData
+        // run the loop for updating the graph peridocially
+//        Timer.scheduledTimer(timeInterval: 1/AudioConstants.FPS, target: self,
+//            selector: #selector(self.updateGraph),
+//            userInfo: nil,
+//            repeats: true)
         
         Timer.scheduledTimer(timeInterval: 1/AudioConstants.FPS, target: self,
             selector: #selector(self.updateFrequency),
@@ -92,11 +90,15 @@ class ViewController: UIViewController {
     func updateFrequency(){
         self.Lable1.text = "1st frequency \(audio.lockInFrequency1)"
         self.Label2.text = "2nd largest frequency \(audio.lockInFrequency2)"
+        self.CurrHZLable.text = "fundamental frequency: \(audio.fund_frequency)"
+        self.PianoNoteLable.text = audio.piano_note
     }
     
     //when tap the button, reset the lock-in frequency to zero
     @IBAction func ResetLockInFrequency(_ sender: Any) {
         audio.lockFrequencyReset()
     }
+    
+    
 }
 
