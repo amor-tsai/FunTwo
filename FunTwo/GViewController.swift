@@ -93,7 +93,7 @@ class GViewController: UIViewController {
     //Compare current frequency versus previous frequency
     var prevFreq : Float = 0.0
     //Threshold to tolerate error
-    var movementThreshhold : Float = 50.0
+    var movementThreshhold : Float = 10.0
     //update label text for doppler effect part
     @objc func updateDoppler(){
         let newFreq : Float = audio.getFrequencyOfSinWaveFromFFtData(aboveFrequency: 16000) ?? 0.0	
