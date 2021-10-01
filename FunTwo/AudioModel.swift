@@ -15,6 +15,7 @@ class AudioModel {
     private var WINDOW_SIZE:UInt = 17
     private var _lockInFrequency1:Float
     private var _lockInFrequency2:Float
+    private var piano_test = false //switch to control if we should open piano_test
     private let SUM_STEP = 6
     private var sumStepCount:Int
     private var _piano_note:String
@@ -168,13 +169,14 @@ class AudioModel {
     }
     
     //return frequency of a sinwave, otherwise, return nil
-    func getFrequencyOfSinWaveFromFFtData() -> Float? {
+    //
+    func getFrequencyOfSinWaveFromFFtData(aboveFrequency:Float) -> Float? {
         if let arr = self.peakFinder?.getFundamentalPeaks(
             fromBuffer: &fftData,
             withLength: UInt(BUFFER_SIZE)/2,
             usingWindowSize: self.WINDOW_SIZE,
             andPeakMagnitudeMinimum: 0,
-            aboveFrequency: 1.0), let peakObj=arr[0] as? Peak {
+            aboveFrequency: aboveFrequency), let peakObj=arr[0] as? Peak {
             return peakObj.frequency
         }
         return nil
@@ -184,6 +186,11 @@ class AudioModel {
     func lockFrequencyReset() {
         self._lockInFrequency2 = 0.0
         self._lockInFrequency1 = 0.0
+    }
+    
+    //To open or close piano test
+    func pianoTestSwitch(isOn:Bool) {
+        self.piano_test = isOn
     }
     
     //==========================================
@@ -240,7 +247,9 @@ class AudioModel {
             
             self.findTwoPeaksFromFFtData(windowSize: WINDOW_SIZE)
 //            self.findPeaksFromFFTData(windowSize: Int(WINDOW_SIZE))
-            self.pianoDetected(windowSize: WINDOW_SIZE)
+            if self.piano_test {
+                self.pianoDetected(windowSize: WINDOW_SIZE)
+            }
         }
     }
     
@@ -254,19 +263,20 @@ class AudioModel {
     }
     
     //find two peaks from the fftData
+    //the frequency must be above 80Hz
     private func findTwoPeaksFromFFtData(windowSize:UInt){
         if let arr = self.peakFinder?.getFundamentalPeaks(
             fromBuffer: &fftData,
             withLength: UInt(BUFFER_SIZE)/2,
             usingWindowSize: windowSize,
             andPeakMagnitudeMinimum: 0,
-            aboveFrequency: 1.0){
+            aboveFrequency: 80.0){
             
             for i in 0..<arr.count {
                 if let peakObj = arr[i] as? Peak {
-//                    print(
-//                        "the \(i) peak is \(peakObj.frequency) index of peak is \(peakObj.index) magnitude is \(peakObj.magnitude)"
-//                    )
+                    print(
+                        "the \(i) peak is \(peakObj.frequency) index of peak is \(peakObj.index) magnitude is \(peakObj.magnitude)"
+                    )
                     if i==0,lockInFrequency1<peakObj.frequency {
                         _lockInFrequency1 = peakObj.frequency
                     }
@@ -314,7 +324,7 @@ class AudioModel {
 //            }
                 _piano_note = self.getPianoNoteByFundamentalFrequency(frequency: peakObj.frequency)
                 _fund_frequency = peakObj.frequency
-                print("index \(peakObj.index) fre \(peakObj.frequency) maganitude \(peakObj.magnitude) multiple \(peakObj.multiple)")
+//                print("index \(peakObj.index) fre \(peakObj.frequency) maganitude \(peakObj.magnitude) multiple \(peakObj.multiple)")
 //                print("peaks count \(arr.count)")
             }
         sumStepCount = 0
