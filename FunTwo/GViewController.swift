@@ -86,16 +86,19 @@ class GViewController: UIViewController {
             userInfo: nil,
             repeats: true)
     }
-
+    //stop when view disappear
     override func viewDidDisappear(_ animated: Bool) {
         recorder.stop()
     }
-    
+    //Compare current frequency versus previous frequency
     var prevFreq : Float = 0.0
+    //Threshold to tolerate error
     var movementThreshhold : Float = 50.0
+    //update label text for doppler effect part
     @objc func updateDoppler(){
-        let newFreq : Float = audio.getFrequencyOfSinWaveFromFFtData(aboveFrequency: 16000) ?? 0.0
+        let newFreq : Float = audio.getFrequencyOfSinWaveFromFFtData(aboveFrequency: 16000) ?? 0.0	
         self.frequency.text = String(newFreq)
+        //compare current frequency versus previous frequency one frame ago
         if newFreq > prevFreq + movementThreshhold{
             self.objectPosition.text = "Approching!"
         }else if newFreq < prevFreq - movementThreshhold{
@@ -103,6 +106,7 @@ class GViewController: UIViewController {
         }else{
             self.objectPosition.text = "Not Moving."
         }
+        //update current frequency into previous frequency
         prevFreq = newFreq
     }
     
