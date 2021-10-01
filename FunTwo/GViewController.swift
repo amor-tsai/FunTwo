@@ -92,7 +92,7 @@ class GViewController: UIViewController {
     }
     
     var prevFreq : Float = 0.0
-    var movementThreshhold : Float = 10
+    var movementThreshhold : Float = 50
     @objc func updateDoppler(){
         let newFreq : Float = audio.getFrequencyOfSinWaveFromFFtData(aboveFrequency: 16000) ?? 0.0
         self.frequency.text = String(newFreq)
