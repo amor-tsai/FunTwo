@@ -13,20 +13,25 @@ class AudioModel {
     // MARK: Properties
     private var BUFFER_SIZE:Int
     private var WINDOW_SIZE:UInt = 17
+    private let SENSITIVE_FACTOR:Float = 2.0//to detect whether two fundamental frequencies equals, the abs(diff) should be equal SENSITIVE_FACTOR
+    private var sin_wave_debug = false//switch control to open output
+    private var piano_debug = true//piano test control to open output
     private var _lockInFrequency1:Float
     private var _lockInFrequency2:Float
-    private var piano_test = true
-//    private var piano_test = true{
-//        didSet{
-//            self._piano_note = ""
-//            self._fund_frequency = 0.0
-//        }
-//    } //switch to control if we should open piano_test
+//    private var piano_test = true
+    private var piano_test = false//switch to control if we should open piano_test
     
-    private let SUM_STEP = 6
-    private var sumStepCount:Int
+    private let HARMONIC_COMPARE_NUM = 5//
+    private var harmonicsCount:Int{
+        didSet{
+            if harmonicsCount == 0{
+                _piano_fund_frequency_list = Array.init(repeating: 0.0, count: HARMONIC_COMPARE_NUM)
+            }
+        }
+    }
     private var _piano_note:String
     private var _fund_frequency:Float// to display piano's fundamental frequency
+    private var _piano_fund_frequency_list:[Float]
     
     //get from https://en.wikipedia.org/wiki/Piano_key_frequencies
     private let PIANO_NOTES_KEY_LIST = [
@@ -114,9 +119,10 @@ class AudioModel {
         _lockInFrequency1 = 0.0
         _lockInFrequency2 = 0.0
         timer = nil
-        sumStepCount = 0
+        harmonicsCount = 0
         _piano_note = "Let me guess..."
         _fund_frequency = 0.0
+        _piano_fund_frequency_list = Array.init(repeating: 0.0, count: HARMONIC_COMPARE_NUM)
     }
     
     // public function for starting processing of microphone data
@@ -208,8 +214,15 @@ class AudioModel {
     }
     
     //To open or close piano test
+    // true to open piano test
+    // false to close piano test
     func pianoTestSwitch(isOn:Bool) {
         self.piano_test = isOn
+        if !self.piano_test {
+            self._piano_note = ""
+            self._fund_frequency = 0.0
+        }
+        
     }
     
     //==========================================
@@ -255,10 +268,7 @@ class AudioModel {
                                          andCopydBMagnitudeToBuffer: &fftData)
             
             //make element-add in each array of fftData for SUM_STEP times(I use online piano keyboard to test, and 15 times seem a proper result), so we could get the maximum frequency
-            if sumStepCount<SUM_STEP {
-                sumStepCount += 1
-            }
-            
+
             // at this point, we have saved the data to the arrays:
             //   timeData: the raw audio samples
             //   fftData:  the FFT of those same samples
@@ -294,9 +304,11 @@ class AudioModel {
             
             for i in 0..<arr.count {
                 if let peakObj = arr[i] as? Peak {
-//                    print(
-//                        "the \(i) peak is \(peakObj.frequency) index of peak is \(peakObj.index) magnitude is \(peakObj.magnitude)"
-//                    )
+                    if sin_wave_debug {
+                        print(
+                            "the \(i) peak is \(peakObj.frequency) index of peak is \(peakObj.index) magnitude is \(peakObj.magnitude)"
+                        )
+                    }
                     if i==0,lockInFrequency1<peakObj.frequency {
                         _lockInFrequency1 = peakObj.frequency
                     }
@@ -336,7 +348,7 @@ class AudioModel {
             withLength: UInt(BUFFER_SIZE)/2,
             usingWindowSize: windowSize,
             andPeakMagnitudeMinimum: 0,
-            aboveFrequency: 100.0,
+            aboveFrequency: 80.0,
             belowFrequency: 2000.0), let peakObj = arr[0] as? Peak {
 //            print("Peaks count: \(arr.count)")
 //            for i in 0..<arr.count {
@@ -344,12 +356,29 @@ class AudioModel {
 //                    print("index \(peakObj.index) fre \(peakObj.frequency) maganitude \(peakObj.magnitude) multiple \(peakObj.multiple)")
 //                }
 //            }
+            if harmonicsCount == 0{
+                _piano_fund_frequency_list[harmonicsCount] = peakObj.frequency
+            }else {
+                for i in 0..<harmonicsCount{
+                    if abs(peakObj.frequency - _piano_fund_frequency_list[i]) > SENSITIVE_FACTOR {
+                        print("fund_list \(_piano_fund_frequency_list) curr fre \(peakObj.frequency)")
+                        harmonicsCount = 0
+                        return
+                    }
+                }
+                _piano_fund_frequency_list[harmonicsCount] = peakObj.frequency
+            }
+            harmonicsCount += 1
+            if harmonicsCount == HARMONIC_COMPARE_NUM {
                 _piano_note = self.getPianoNoteByFundamentalFrequency(frequency: peakObj.frequency)
                 _fund_frequency = peakObj.frequency
-//                print("index \(peakObj.index) fre \(peakObj.frequency) maganitude \(peakObj.magnitude) multiple \(peakObj.multiple)")
+                harmonicsCount = 0
+            }
+            if piano_debug {
+                print("index \(peakObj.index) fre \(peakObj.frequency) maganitude \(peakObj.magnitude) multiple \(peakObj.multiple)")
+            }
 //                print("peaks count \(arr.count)")
             }
-        sumStepCount = 0
     }
     
     //Given a fundamental frequency, use formula 12*log2(frequency/440)+49 to get its key(suggested by wiki)

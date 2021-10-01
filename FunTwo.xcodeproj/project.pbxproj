@@ -24,6 +24,8 @@
 		31388CC926FE879600FAAB2E /* AudioFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 31388CC826FE879600FAAB2E /* AudioFileReader.m */; };
 		31388CCC26FE87A500FAAB2E /* FFTHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 31388CCB26FE87A500FAAB2E /* FFTHelper.m */; };
 		314A624D2700E97000643756 /* PeakFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 314A62462700E97000643756 /* PeakFinder.m */; };
+		314A62512706E9B000643756 /* Third.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 314A62502706E9B000643756 /* Third.storyboard */; };
+		314A62532706EA3C00643756 /* CTViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314A62522706EA3C00643756 /* CTViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +54,8 @@
 		31388CCB26FE87A500FAAB2E /* FFTHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FFTHelper.m; sourceTree = "<group>"; };
 		314A62462700E97000643756 /* PeakFinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeakFinder.m; sourceTree = "<group>"; };
 		314A62472700E97000643756 /* PeakFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeakFinder.h; sourceTree = "<group>"; };
+		314A62502706E9B000643756 /* Third.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Third.storyboard; sourceTree = "<group>"; };
+		314A62522706EA3C00643756 /* CTViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,10 +94,12 @@
 				3115B6A326FCF08F00AE4916 /* SceneDelegate.swift */,
 				3115B6A526FCF08F00AE4916 /* ViewController.swift */,
 				3117E70726FE61E900B0F0CD /* GViewController.swift */,
+				314A62522706EA3C00643756 /* CTViewController.swift */,
 				3117E70C26FE76F000B0F0CD /* MetalGraph.swift */,
 				3117E70E26FE784700B0F0CD /* AudioModel.swift */,
 				3115B6A726FCF08F00AE4916 /* Main.storyboard */,
 				3117E70926FE631000B0F0CD /* Second.storyboard */,
+				314A62502706E9B000643756 /* Third.storyboard */,
 				2D18BEDD2706AA0A0041BC49 /* ToneOutputUnit.swift */,
 				3115B6AA26FCF09300AE4916 /* Assets.xcassets */,
 				3115B6AC26FCF09300AE4916 /* LaunchScreen.storyboard */,
@@ -182,6 +188,7 @@
 				3115B6AB26FCF09300AE4916 /* Assets.xcassets in Resources */,
 				3117E70A26FE631000B0F0CD /* Second.storyboard in Resources */,
 				3115B6A926FCF08F00AE4916 /* Main.storyboard in Resources */,
+				314A62512706E9B000643756 /* Third.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,6 +212,7 @@
 				3117E70D26FE76F000B0F0CD /* MetalGraph.swift in Sources */,
 				31388CC626FE877F00FAAB2E /* Novocaine.m in Sources */,
 				2D18BEDE2706AA0A0041BC49 /* ToneOutputUnit.swift in Sources */,
+				314A62532706EA3C00643756 /* CTViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

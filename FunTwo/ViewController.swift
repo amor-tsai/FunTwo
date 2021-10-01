@@ -38,7 +38,7 @@ class ViewController: UIViewController {
         ResetButton.layer.borderWidth = 1
         ResetButton.layer.borderColor = UIColor.black.cgColor
         
-        self.PianoTestSwitch.isOn = false
+//        self.PianoTestSwitch.isOn = false
         // add in graphs for display
 //        graph?.addGraph(withName: "fft",
 //                        shouldNormalize: true,
@@ -60,11 +60,15 @@ class ViewController: UIViewController {
 //            userInfo: nil,
 //            repeats: true)
         
-        Timer.scheduledTimer(timeInterval: 1/AudioConstants.FPS, target: self,
+        Timer.scheduledTimer(timeInterval: 1.0/AudioConstants.FPS, target: self,
             selector: #selector(self.updateFrequency),
             userInfo: nil,
             repeats: true)
         
+        Timer.scheduledTimer(timeInterval: 1.0/AudioConstants.FPS, target: self,
+            selector: #selector(self.updatePianoNote),
+            userInfo: nil,
+            repeats: true)
     }
     
     //when the view disappear, pause the audio and stop the timer in the audio module
@@ -88,9 +92,7 @@ class ViewController: UIViewController {
     }
     
     @objc
-    func updateFrequency(){
-        self.Lable1.text = "1st frequency \(audio.lockInFrequency1)"
-        self.Label2.text = "2nd largest frequency \(audio.lockInFrequency2)"
+    func updatePianoNote(){
         if self.PianoTestSwitch.isOn {
             audio.pianoTestSwitch(isOn: true)
             self.CurrHZLable.text = "fundamental frequency: \(audio.fund_frequency)"
@@ -100,7 +102,12 @@ class ViewController: UIViewController {
             self.CurrHZLable.text = "Piano test is off"
             self.PianoNoteLable.text = "Piano test is off"
         }
-
+    }
+    
+    @objc
+    func updateFrequency(){
+        self.Lable1.text = "1st frequency \(audio.lockInFrequency1)"
+        self.Label2.text = "2nd largest frequency \(audio.lockInFrequency2)"
     }
     
     //when tap the button, reset the lock-in frequency to zero

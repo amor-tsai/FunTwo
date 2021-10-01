@@ -59,6 +59,26 @@
                                             <segue destination="Bi5-KK-34g" kind="show" id="8d6-zW-Bw2"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="SO4-hq-9gY" style="IBUITableViewCellStyleDefault" id="d8X-et-Kzf">
+                                        <rect key="frame" x="0.0" y="111.33333396911621" width="390" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d8X-et-Kzf" id="jrU-KY-XTI">
+                                            <rect key="frame" x="0.0" y="0.0" width="390" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Module C(Deprecated)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SO4-hq-9gY">
+                                                    <rect key="frame" x="20" y="0.0" width="350" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="NGH-7j-VN9" kind="show" id="2VY-gO-yWI"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -72,6 +92,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="erG-dT-zPs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-820" y="102"/>
+        </scene>
+        <!--ThirdVC-->
+        <scene sceneID="m7e-Qa-cRp">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Third" referencedIdentifier="ThirdVC" id="NGH-7j-VN9" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="dAJ-JX-eVG"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J53-M6-dEA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-990" y="570"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
