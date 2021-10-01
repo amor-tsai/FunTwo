@@ -167,6 +167,19 @@ class AudioModel {
         return(f2 + ((m1 - m3) / (m3+m1-2.0 * m2)) * self.frequencyResolution / 2.0);
     }
     
+    //return frequency of a sinwave, otherwise, return nil
+    func getFrequencyOfSinWaveFromFFtData() -> Float? {
+        if let arr = self.peakFinder?.getFundamentalPeaks(
+            fromBuffer: &fftData,
+            withLength: UInt(BUFFER_SIZE)/2,
+            usingWindowSize: self.WINDOW_SIZE,
+            andPeakMagnitudeMinimum: 0,
+            aboveFrequency: 1.0), let peakObj=arr[0] as? Peak {
+            return peakObj.frequency
+        }
+        return nil
+    }
+    
     //reset the two largest frequency detected to zero
     func lockFrequencyReset() {
         self._lockInFrequency2 = 0.0
@@ -239,7 +252,6 @@ class AudioModel {
         // copy samples from the microphone into circular buffer
         self.inputBuffer?.addNewFloatData(data, withNumSamples: Int64(numFrames))
     }
-    
     
     //find two peaks from the fftData
     private func findTwoPeaksFromFFtData(windowSize:UInt){
