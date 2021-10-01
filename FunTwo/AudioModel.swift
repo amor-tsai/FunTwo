@@ -15,12 +15,13 @@ class AudioModel {
     private var WINDOW_SIZE:UInt = 17
     private var _lockInFrequency1:Float
     private var _lockInFrequency2:Float
-    private var piano_test = false{
-        didSet{
-            self._piano_note = ""
-            self._fund_frequency = 0.0
-        }
-    } //switch to control if we should open piano_test
+    private var piano_test = true
+//    private var piano_test = true{
+//        didSet{
+//            self._piano_note = ""
+//            self._fund_frequency = 0.0
+//        }
+//    } //switch to control if we should open piano_test
     
     private let SUM_STEP = 6
     private var sumStepCount:Int
@@ -184,9 +185,20 @@ class AudioModel {
             andPeakMagnitudeMinimum: 0,
             aboveFrequency: aboveFrequency,
             belowFrequency: 0.0), let peakObj=arr[0] as? Peak {
+            print("module b detected fre \(peakObj.frequency)")
             return peakObj.frequency
         }
         return nil
+    }
+    
+    //play sinwave
+    func startProcessingSinewaveForPlayback(withFreq:Float=330.0){
+        let sineFrequency = withFreq
+        // Two examples are given that use either objective c or that use swift
+        //   the swift code for loop is slightly slower thatn doing this in c,
+        //   but the implementations are very similar
+        //self.audioManager?.outputBlock = self.handleSpeakerQueryWithSinusoid // swift for loop
+        self.audioManager?.setOutputBlockToPlaySineWave(sineFrequency) // c for loop
     }
     
     //reset the two largest frequency detected to zero
