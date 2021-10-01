@@ -308,7 +308,8 @@ class AudioModel {
         sumStepCount = 0
     }
     
-    //
+    //Given a fundamental frequency, use formula 12*log2(frequency/440)+49 to get its key(suggested by wiki)
+    //I may use only 25(A2) to 76(B6), because they may occur in a regular online piano keyboard
     private func getPianoNoteByFundamentalFrequency(frequency:Float) -> String {
         if frequency > 100{
             let key = Int(12*log2(frequency/440) + 49)
