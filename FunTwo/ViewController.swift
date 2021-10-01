@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var ResetButton: UIButton!
     @IBOutlet weak var CurrHZLable: UILabel!
     @IBOutlet weak var PianoNoteLable: UILabel!
+    @IBOutlet weak var PianoTestSwitch: UISwitch!
     
     struct AudioConstants{
         static let AUDIO_BUFFER_SIZE = 1024*16
@@ -37,6 +38,7 @@ class ViewController: UIViewController {
         ResetButton.layer.borderWidth = 1
         ResetButton.layer.borderColor = UIColor.black.cgColor
         
+        self.PianoTestSwitch.isOn = false
         // add in graphs for display
 //        graph?.addGraph(withName: "fft",
 //                        shouldNormalize: true,
@@ -51,7 +53,6 @@ class ViewController: UIViewController {
         
         //play the audio
         audio.play()
-        
         
         // run the loop for updating the graph peridocially
 //        Timer.scheduledTimer(timeInterval: 1/AudioConstants.FPS, target: self,
@@ -90,15 +91,22 @@ class ViewController: UIViewController {
     func updateFrequency(){
         self.Lable1.text = "1st frequency \(audio.lockInFrequency1)"
         self.Label2.text = "2nd largest frequency \(audio.lockInFrequency2)"
-        self.CurrHZLable.text = "fundamental frequency: \(audio.fund_frequency)"
-        self.PianoNoteLable.text = audio.piano_note
+        if self.PianoTestSwitch.isOn {
+            audio.pianoTestSwitch(isOn: true)
+            self.CurrHZLable.text = "fundamental frequency: \(audio.fund_frequency)"
+            self.PianoNoteLable.text = audio.piano_note
+        } else {
+            audio.pianoTestSwitch(isOn: false)
+            self.CurrHZLable.text = "Piano test is off"
+            self.PianoNoteLable.text = "Piano test is off"
+        }
+
     }
     
     //when tap the button, reset the lock-in frequency to zero
     @IBAction func ResetLockInFrequency(_ sender: Any) {
         audio.lockFrequencyReset()
     }
-    
-    
+
 }
 

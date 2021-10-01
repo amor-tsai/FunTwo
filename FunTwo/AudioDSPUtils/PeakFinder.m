@@ -51,16 +51,29 @@
 // Using starter code from Candie Solis, Charlie Albright, and Spencer Kaiser, MSLC 2015
 // this returns an array of peaks fundamental frequencies in the spectrum (if any)
 //      return type: index, frequency, magnitude, and list of harmonics
+//
+//
+// add belowFrequency to set upper bound modified by Amor Tsai
+// belowFrequency = 0.0 means without limitation
 -(NSArray*)getFundamentalPeaksFromBuffer:(float *)magBuffer
                               withLength:(NSUInteger)length
                          usingWindowSize:(NSUInteger)windowSize
                  andPeakMagnitudeMinimum:(float)peakMagnitude
                           aboveFrequency:(float)minimumFrequency
+                          belowFrequency:(float)maximumFrequency
 {
     NSMutableArray* peaks = [[NSMutableArray alloc] init];
     int startIndex = minimumFrequency / self.frequencyResolution; // must be above X Hz
-    
-    for (int i = startIndex; i < length-windowSize; i++) {
+    NSUInteger endIndex = 0;
+    if (maximumFrequency == 0) {
+        endIndex = length-windowSize;
+    } else {
+        endIndex = maximumFrequency / self.frequencyResolution;
+        if (endIndex > length-windowSize) {
+            endIndex = length-windowSize;
+        }
+    }
+    for (int i = startIndex; i < endIndex; i++) {
         unsigned long mid = (i + windowSize/2);
         
         // find maximum of spectrum in window

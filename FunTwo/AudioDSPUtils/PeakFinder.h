@@ -27,7 +27,8 @@
                               withLength:(NSUInteger)length
                          usingWindowSize:(NSUInteger)windowSize
                  andPeakMagnitudeMinimum:(float)peakMagnitude
-                          aboveFrequency:(float)minimumFrequency;
+                          aboveFrequency:(float)minimumFrequency
+                          belowFrequency:(float)maximumFrequency;
 
 - (float)getFrequencyFromIndex:(NSUInteger)index
                           usingData:(float*)data;
